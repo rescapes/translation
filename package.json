@@ -1,6 +1,6 @@
 {
   "name": "@rescapes/translation",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "license": "MIT",
   "description": "Translation helpers",
   "main": "src/index.mjs",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com/rescapes/tranlation.git"
+    "url": "git@github.com:rescapes/translation.git"
   },
   "author": "Andy Likuski andy@likuski.org",
   "bugs": {
