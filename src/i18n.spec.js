@@ -1,6 +1,6 @@
 import en from './translations/en/en.json';
 import i18next from 'i18next';
-import {i18nTask, mergedResources} from './i18n';
+import {i18nTask, mergedResources} from './i18n.js';
 import R from 'ramda';
 import {composeWithChain, defaultRunConfig, omitDeepBy} from '@rescapes/ramda';
 import {pickBy} from 'ramda/src/index';

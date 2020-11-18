@@ -43,6 +43,9 @@
     "react-i18next": "^11.7.3"
   },
   "devDependencies": {
+    "@rescapes/log": ">=0.1.13",
+    "@rescapes/ramda": ">=1.6.151",
+    "@rescapes/validate": ">=1.3.17",
     "babelrc-rollup": "^3.0.0",
     "cross-env": "^7.0.2",
     "eslint": "7.13.0",
@@ -52,9 +55,6 @@
     "jest-cli": "^26.6.3",
     "jest-enzyme": "^7.1.2",
     "jsdom-global": "^3.0.2",
-    "rescape-log": ">=0.1.13",
-    "rescape-ramda": ">=1.6.151",
-    "rescape-validate": ">=1.3.17",
     "rollup": "^2.33.1",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-babel": "^4.3.3",
@@ -68,7 +68,11 @@
     "rollup-plugin-uglify": "^6.0.3",
     "rollup-watch": "^4.3.1"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@rescapes/log": ">=0.1.13",
+    "@rescapes/ramda": ">=1.6.151",
+    "@rescapes/validate": ">=1.3.17"
+  },
   "jest": {
     "modulePaths": [
       "<rootDir>/src"
