@@ -1,1 +1,1 @@
-export {mergedResources, i18nTask} from './i18n'
+export {mergedResources, i18nTask} from './i18n.js'
