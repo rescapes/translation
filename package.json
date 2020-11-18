@@ -1,6 +1,6 @@
 {
   "name": "@rescapes/translation",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "license": "MIT",
   "description": "Translation helpers",
   "main": "src/index.mjs",
