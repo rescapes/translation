@@ -15,9 +15,9 @@ const config = {
 // I don't have to do this in any other project. I hate Babel
 const externals = [
   'symbol-observable',
-  'folktale/concurrency/task',
-  'folktale/result',
-  'folktale/maybe',
+  'folktale/concurrency/task/index.js',
+  'folktale/result/index.js',
+  'folktale/maybe/index.js',
   '@turf/bbox',
   '@turf/bbox-polygon',
   '@turf/center',

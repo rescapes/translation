@@ -3,7 +3,7 @@ import enUS from './translations/en/en-us.json';
 import no from './translations/no/no.json';
 import nb from './translations/no/no-nb.json';
 import nn from './translations/no/no-nn.json';
-import T from 'folktale/concurrency/task';
+import T from 'folktale/concurrency/task/index.js';
 
 import {
   chainObjToValues,

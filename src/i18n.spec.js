@@ -4,7 +4,7 @@ import {i18nTask, mergedResources} from './i18n.js';
 import R from 'ramda';
 import {composeWithChain, defaultRunConfig, omitDeepBy} from '@rescapes/ramda';
 import {pickBy} from 'ramda/src/index';
-import T from 'folktale/concurrency/task';
+import T from 'folktale/concurrency/task/index.js';
 
 const {fromPromised} = T;
 
