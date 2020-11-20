@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';
-import R from 'ramda';
+import * as R from 'ramda';
 
 const config = {
   input: [

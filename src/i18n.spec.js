@@ -1,7 +1,7 @@
 import en from './translations/en/en.json';
 import i18next from 'i18next';
 import {i18nTask, mergedResources} from './i18n.js';
-import R from 'ramda';
+import * as R from 'ramda';
 import {composeWithChain, defaultRunConfig, omitDeepBy} from '@rescapes/ramda';
 import {pickBy} from 'ramda/src/index';
 import T from 'folktale/concurrency/task/index.js';
