@@ -1,15 +1,28 @@
-import en from './translations/en/en.json';
-import enUS from './translations/en/en-us.json';
-import no from './translations/no/no.json';
-import nb from './translations/no/no-nb.json';
-import nn from './translations/no/no-nn.json';
+import fs from 'fs';
 import T from 'folktale/concurrency/task/index.js';
+import {isNode} from 'browser-or-node';
+
+const {of} = T
+
+export const importJsonOrJsTask = paramsFile => {
+  return R.ifElse(
+    R.endsWith('json'),
+    file => {
+      return of(JSON.parse(fs.readFileSync(file)));
+    },
+    file => {
+      return fromPromised(() => import(file).then(({default: theDefault}) => {
+          return theDefault;
+        })
+      )();
+    }
+  )(paramsFile);
+};
+
 
 import {
-  chainObjToValues,
-  flattenObj,
-  mapKeysAndValues,
-  mapObjToValues,
+  chainObjToValues, composeWithChain,
+  mapObjToValues, mapToNamedResponseAndInputs,
   mergeDeep,
   reqPathThrowing
 } from '@rescapes/ramda';
@@ -18,18 +31,31 @@ import i18n from "i18next";
 import {initReactI18next} from "react-i18next";
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import {taskToPromise} from "@rescapes/ramda/src/monadHelpers";
 
 const {fromPromised} = T;
 
-const resources = {
-  en: {
-    default: en,
-    us: enUS
-  },
-  no: {
-    default: no,
-    nb: nb,
-    nn: nn
+const loadResources = async () => {
+  const x = isNode ?
+    file => import(file).then(({default: theDefault}) => {
+      return theDefault;
+    }) :
+    file => taskToPromise(importJsonOrJsTask(file));
+  const en = await x('./translations/en/en.json');
+  const enUS = await x('./translations/en/en-us.json');
+  const no = await x('./translations/no/no.json');
+  const nb = await x('./translations/no/no-nb.json');
+  const nn = await x('./translations/no/no-nn.json');
+  return {
+    en: {
+      default: en,
+      us: enUS
+    },
+    no: {
+      default: no,
+      nb: nb,
+      nn: nn
+    }
   }
 };
 
@@ -39,7 +65,8 @@ const resources = {
  * resources with this object favored
  * @returns {Object}
  */
-export const mergedResources = (callerResources = {}) => {
+export const mergedResources = async (callerResources = {}) => {
+  const resources = await loadResources()
   const allResources = mergeDeep(resources, callerResources);
   return R.compose(
     R.fromPairs,
@@ -87,38 +114,46 @@ export const mergedResources = (callerResources = {}) => {
  * declared above. It must match the form the of the resources above.
  * @returns The task resolves to the original i18n after it's initialized
  */
-export const i18nTask = resources => {
-  return fromPromised(
-    resources => {
-      return i18n
-        .use(Backend)
-        .use(LanguageDetector)
-        .use(initReactI18next) // bind react-i18next to the instance
-        .init({
-            // Merge default resources with the caller's
-            resources: mergedResources(resources),
-            fallbackLng: "en",
-            debug: true,
-            lowerCaseLng: true,
-            interpolation: {
-              escapeValue: false // not needed for react!!
-            }
+export const i18nTask = (resources) => {
+  return composeWithChain([
+    ({mergedResources}) => fromPromised(
+      mergedResources => {
+        return i18n
+          .use(Backend)
+          .use(LanguageDetector)
+          .use(initReactI18next) // bind react-i18next to the instance
+          .init({
+              // Merge default resources with the caller's
+              resources: mergedResources,
+              fallbackLng: "en",
+              debug: true,
+              lowerCaseLng: true,
+              interpolation: {
+                escapeValue: false // not needed for react!!
+              }
 
-            // react i18next special options (optional)
-            // override if needed - omit if ok with defaults
-            /*
-            react: {
-              bindI18n: 'languageChanged',
-              bindI18nStore: '',
-              transEmptyNodeValue: '',
-              transSupportBasicHtmlNodes: true,
-              transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'],
-              useSuspense: true,
+              // react i18next special options (optional)
+              // override if needed - omit if ok with defaults
+              /*
+              react: {
+                bindI18n: 'languageChanged',
+                bindI18nStore: '',
+                transEmptyNodeValue: '',
+                transSupportBasicHtmlNodes: true,
+                transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'],
+                useSuspense: true,
+              }
+              */
             }
-            */
-          }
-        ).then(() => i18n);
-    }
-  )(resources);
+          ).then(() => i18n);
+      }
+    )(mergedResources),
+    mapToNamedResponseAndInputs('mergedResources',
+      ({resources}) => {
+      return fromPromised(
+        resources => mergedResources(resources)
+      )(resources)
+    })
+  ])({resources});
 };
 

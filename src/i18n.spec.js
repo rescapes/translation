@@ -23,7 +23,7 @@ describe('translation', () => {
     expect(i18next.t('hello world')).toEqual('hallo Welt');
   });
 
-  test('mergedResources', () => {
+  test('mergedResources', async () => {
     const expected = {
       "en": {"translation": {"colloquial hello world": "hi world", "hello world": "hello world"}},
       "en-us": {"translation": {"colloquial hello world": "howdy world", "hello world": "hello world"}},
@@ -43,12 +43,12 @@ describe('translation', () => {
               'hello world', 'colloquial hello world']
           );
         },
-        mergedResources()
+        await mergedResources()
       )
     ).toEqual(expected);
   });
 
-  test('mergedResourcesWithCallers', () => {
+  test('mergedResourcesWithCallers', async () => {
     const callerResources = {
       "en": {
         "default": {
@@ -94,7 +94,7 @@ describe('translation', () => {
               'hello world', 'colloquial hello world', 'goodbye']
           );
         },
-        mergedResources(callerResources)
+        await mergedResources(callerResources)
       )
     ).toEqual(expected);
   });
