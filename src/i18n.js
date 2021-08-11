@@ -39,7 +39,7 @@ const loadResources = async () => {
   const x = fileOrPromise => {
     return R.is(String, fileOrPromise) ?
       taskToPromise(importJsonOrJsTask(fileOrPromise)) :
-      file => import(file).then(({default: theDefault}) => {
+      fileOrPromise.then(({default: theDefault}) => {
         return theDefault;
       })
   }
