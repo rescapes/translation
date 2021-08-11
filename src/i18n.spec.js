@@ -1,4 +1,3 @@
-import en from './translations/en/en.json';
 import i18next from 'i18next';
 import {i18nTask, mergedResources} from './i18n.js';
 import * as R from 'ramda';
