@@ -36,16 +36,19 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const {fromPromised} = T;
 
 const loadResources = async () => {
-  const x = isNode ?
-    file => import(file).then(({default: theDefault}) => {
-      return theDefault;
-    }) :
-    file => taskToPromise(importJsonOrJsTask(file));
-  const en = await x('./translations/en/en.json');
-  const enUS = await x('./translations/en/en-us.json');
-  const no = await x('./translations/no/no.json');
-  const nb = await x('./translations/no/no-nb.json');
-  const nn = await x('./translations/no/no-nn.json');
+  const x = fileOrPromise => {
+    return R.is(String, fileOrPromise) ?
+      taskToPromise(importJsonOrJsTask(fileOrPromise)) :
+      file => import(file).then(({default: theDefault}) => {
+        return theDefault;
+      })
+  }
+  // Duplicating strings because *#%@% webpack is complaining about dynamic imports
+  const en = await x(!isNode ? import('./translations/en/en.json') : './translations/en/en.json');
+  const enUS = await x(!isNode ? import('./translations/en/en-us.json') : './translations/en/en-us.json');
+  const no = await x(!isNode ? import('./translations/no/no.json') : './translations/no/no.json');
+  const nb = await x(!isNode ? import('./translations/no/no-nb.json') : './translations/no/no-nb.json');
+  const nn = await x(!isNode ? import('./translations/no/no-nn.json') : './translations/no/no-nn.json');
   return {
     en: {
       default: en,
@@ -150,10 +153,10 @@ export const i18nTask = (resources) => {
     )(mergedResources),
     mapToNamedResponseAndInputs('mergedResources',
       ({resources}) => {
-      return fromPromised(
-        resources => mergedResources(resources)
-      )(resources)
-    })
+        return fromPromised(
+          resources => mergedResources(resources)
+        )(resources)
+      })
   ])({resources});
 };
 
