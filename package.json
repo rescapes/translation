@@ -1,6 +1,6 @@
 {
   "name": "@rescapes/translation",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "license": "MIT",
   "description": "Translation helpers",
   "main": "src/index.mjs",
@@ -30,8 +30,8 @@
     "prepare": "cross-env ENABLE_INTEGRATION_TESTS=false yarn run clean && yarn run build",
     "build-publish-patch": "yarn run build && yarn run publish-patch",
     "build-publish-minor": "yarn run build && yarn run publish-minor",
-    "publish-patch": "yarn version --patch && yarn publish --non-interactive",
-    "publish-minor": "yarn version --minor && yarn publish --non-interactive"
+    "publish-patch": "yarn version --patch && yarn publish --non-interactive --access public",
+    "publish-minor": "yarn version --minor && yarn publish --non-interactive --access public"
   },
   "dependencies": {
     "browser-or-node": "^2.0.0",
