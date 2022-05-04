@@ -1,0 +1,11 @@
+{
+  "lng": "en-us",
+  "name": "English-US",
+  "resources": {
+    "en-us": {
+      "translation": {
+        "colloquial hello world": "howdy world"
+      }
+    }
+  }
+}

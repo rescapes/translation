@@ -1,0 +1,12 @@
+{
+  "lng": "en",
+  "name": "English",
+  "resources": {
+    "en": {
+      "translation": {
+        "hello world": "hello world",
+        "colloquial hello world": "hi world"
+      }
+    }
+  }
+}

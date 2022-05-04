@@ -1,0 +1,11 @@
+{
+  "lng": "no",
+  "name": "Norsk",
+  "resources": {
+    "no": {
+      "translation": {
+        "hello world": "hei"
+      }
+    }
+  }
+}

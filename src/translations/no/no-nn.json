@@ -1,0 +1,11 @@
+{
+  "lng": "no-nn",
+  "name": "Norsk-Nynorsk",
+  "resources": {
+    "no-nn": {
+      "translation": {
+        "hello world": "hei verd"
+      }
+    }
+  }
+}
