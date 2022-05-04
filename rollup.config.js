@@ -36,7 +36,7 @@ const externals = [
 ];
 
 const configs = R.map(c => {
-  return R.merge(config, c);
+  return R.mergeRight(config, c);
 }, [
   // CommonJS
   {
